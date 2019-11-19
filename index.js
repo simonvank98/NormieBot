@@ -6,6 +6,8 @@ client.once('ready', () => {
 });
 
 client.on('message', message => {
+
+	
 	//console.log(message.content);
 	if (message.content.startsWith(`${prefix}greetings`)) {
 		message.channel.send("Homo's :wave:");
