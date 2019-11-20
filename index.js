@@ -2,22 +2,51 @@ const Discord = require ('discord.js');
 const { prefix, token } = require('./config.json');
 const client = new Discord.Client();
 const ytdl = require('ytdl-core');
+var servers = {};
+
+let args = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
 
 client.login(token);
 
-client.once('ready', () => {
+client.on('ready', () => {
 	console.log('Ready!');
 });
 
 client.on('message', message => {
 	if (message.content.startsWith(`${prefix}greetings`)) {
-		if(!message.member.voiceChannel) return message.channel.send('Je zit niet in een channel gekkie');
-		if(message.guild.me.voiceChannel) return message.channel.send('Ik ben al ergens anders Homos aan het roepen');
-		let video = await ytdl.getInfo('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
-		let connection = await message.member.voiceChannel.join();
-		let dispatcher = await connection.play(ytdl('https://www.youtube.com/watch?v=dQw4w9WgXcQ', { filter: 'audioonly' }));
-		
-		
-		message.channel.send("Homo's :wave:");
+		function play(connection, message) {
+			var server = servers[message.guild.id];
+
+			server.dispatcher = connection.playStream(ytdl(server.queue[0], { filter: "audioonly" }));
+
+			server.queue.shift();
+
+			server.dispatcher.on("end", function () {
+				if (server.queue[0]) {
+					play(connection, message);
+				} else {
+					connection.disconnect();
+				}
+			})
+		}
+
+		if (!message.member.voiceChannel) {
+			message.channel.send('Je zit niet in een channel gekkie');
+			return;
+		}
+
+		if (!servers[message.guild.id]) servers[message.guild.id] = {
+			queue: []
+		}
+
+		var server = servers[message.guild.id];
+
+		server.queue.push(args);
+
+		if (!message.guild.voiceConnection) message.member.voiceChannel.join().then(function (connection) {
+			play(connection, message);
+		})
 	}
 });
+
+
