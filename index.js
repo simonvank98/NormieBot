@@ -22,7 +22,32 @@ client.on('message', async message => {
 });
 
 async function execute(message, serverQueue) {
-	const args = 'https://www.youtube.com/watch?v=dWDuTZyXi78&feature=youtu.be';
+	random = Math.floor(Math.random() * 7) + 1;
+
+	switch (random) {
+		case 1:
+			var args = 'https://www.youtube.com/watch?v=CAozvVZk6CE';
+			break;
+		case 2:
+			var args = 'https://www.youtube.com/watch?v=Q1BZlwOVFWo';
+			break;
+		case 3:
+			var args = 'https://www.youtube.com/watch?v=p70TAlk4sqU';
+			break;
+		case 4:
+			var args = 'https://www.youtube.com/watch?v=aG9APSWtLOE';
+			break;
+		case 5:
+			var args = 'https://www.youtube.com/watch?v=G2qvrz-h2uY';
+			break;
+		case 6:
+			var args = 'https://www.youtube.com/watch?v=OUGvXDNqDMU';
+			break;
+		case 7:
+			var args = 'https://www.youtube.com/watch?v=P1ktul1v0To';
+			break;
+	}
+
 
 	const voiceChannel = message.member.voiceChannel;
 	if (!voiceChannel) return message.channel.send('You need to be in a voice channel to play music!');
