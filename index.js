@@ -15,7 +15,7 @@ client.on('message', async message => {
 
 	const serverQueue = queue.get(message.guild.id);
 
-	if (message.content.startsWith(`${prefix}greetings`)) {
+	if (message.content.startsWith(`${prefix}henlo`)) {
 		execute(message, serverQueue);
 		return;
 	}
