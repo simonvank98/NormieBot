@@ -18,6 +18,8 @@ client.on('message', async message => {
 	if (message.content.startsWith(`${prefix}henlo`)) {
 		execute(message, serverQueue);
 		return;
+	} else if(message.content.startsWith(`${prefix}santagreetings`)) {
+		return message.channel.send('Nee Guido, er komt geen santa greetings.');
 	}
 });
 
